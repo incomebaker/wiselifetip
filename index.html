@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Win a Weight Loss eBook</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-top: 1rem;
+    }
+    #hero-image {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    p.description {
+      max-width: 600px;
+      text-align: center;
+      color: #333;
+      margin: 1rem auto 2rem;
+      font-size: 1.1rem;
+    }
+    #entryForm {
+      display: none;
+      margin-top: 1rem;
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      margin: 0.5rem 0;
+      padding: 0.7rem;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #clickBtn {
+      background: #27ae60;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #clickBtn:hover {
+      background: #219150;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="hero-image" src="https://i.imgur.com/VXt9yBf.jpg" alt="Weight Loss eBook Giveaway" />
+
+  <h1>🎁 Win a Free Weight Loss eBook!</h1>
+
+  <p class="description">
+    Ready to kickstart your weight loss journey? We're giving away an exclusive <strong>weight loss guide</strong> packed with actionable tips, proven strategies, and delicious fat-burning recipes.  
+    <br><br>
+    All you need to do is click the button below, follow the link, and enter your name and email to claim your FREE copy. Limited entries — act fast!
+  </p>
+
+  <button id="clickBtn">Click to Qualify</button>
+
+  <form id="entryForm">
+    <input type="text" id="name" placeholder="Your name" required />
+    <input type="email" id="email" placeholder="Your email" required />
+    <button type="submit">Submit Entry</button>
+  </form>
+
+  <script>
+    const smartLink = "https://otieu.com/4/6365206";
+    const scriptURL = "YOUR_GOOGLE_SCRIPT_URL_HERE"; // Replace with your actual Google Script URL
+    const redirectURL = "https://example.com/thank-you"; // Replace with your redirect link
+
+    document.getElementById("clickBtn").onclick = function (e) {
+      e.preventDefault();
+      window.open(smartLink, "_blank");
+      localStorage.setItem("clickedSmartLink", "yes");
+      document.getElementById("entryForm").style.display = "block";
+    };
+
+    document.getElementById("entryForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      
+      if (localStorage.getItem("clickedSmartLink") !== "yes") {
+        alert("Please click the green button first to qualify.");
+        return false;
+      }
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      fetch(scriptURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`
+      })
+      .then(response => {
+        alert("✅ Your entry has been received!");
+        document.getElementById("entryForm").reset();
+        localStorage.removeItem("clickedSmartLink");
+        window.location.href = redirectURL;
+      })
+      .catch(error => {
+        alert("⚠️ Error submitting form: " + error.message);
+      });
+    });
+  </script>
+
+</body>
+</html>
